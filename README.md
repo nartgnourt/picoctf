@@ -34,3 +34,29 @@ Sử dụng [CyberChef](https://gchq.github.io/CyberChef/#recipe=From_Base64('A-
 ### Flag
 
 `picoCTF{web_succ3ssfully_d3c0ded_02cdcb59}`
+
+## Unminify
+
+> Author: Jeffery John
+>
+> I don't like scrolling down to read the code of my website, so I've squished it. As a bonus, my pages load faster!\
+>
+> **Hints**
+>
+> Try CTRL+U / ⌘+U in your browser to view the page source. You can also add 'view-source:' before the URL, or try `curl <URL>` in your shell.\
+> Minification reduces the size of code, but does not change its functionality.\
+> What tools do developers use when working on a website? Many text editors and browsers include formatting.
+>
+### Solution
+
+Vào thử thách, chúng ta có trang web sau:
+
+![image](images/unminify/image-1.png)
+
+Xem HTML source code, chúng ta lụm được flag:
+
+![image](images/unminify/image-2.png)
+
+### Flag
+
+`picoCTF{pr3tty_c0d3_743d0f9b}`
