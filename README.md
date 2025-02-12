@@ -1,0 +1,36 @@
+<!-- markdownlint-disable MD033 MD041 MD024 -->
+<p align="center">
+<a href="https://play.picoctf.org/"><img src="images/picoctf-logo.svg" alt="picoctf-logo"></a>
+</p>
+<!-- markdownlint-enable MD033 -->
+
+# picoCTF
+
+## WebDecode
+
+> Author: Nana Ama Atombo-Sackey
+>
+> Do you know how to use the web inspector?\
+>
+> **Hints**
+>
+> Use the web inspector on other files included by the web page.\
+> The flag may or may not be encoded
+
+### Solution
+
+Truy cập vào URL của thử thách, chúng ta thấy một trang web như sau:
+
+![image](images/webdecode/image-1.png)
+
+Nhấn chọn "ABOUT" và Inspect thì thấy có chuỗi `cGljb0NURnt3ZWJfc3VjYzNzc2Z1bGx5X2QzYzBkZWRfMDJjZGNiNTl9` nằm trong attribute `notify_true`. Chuỗi đó có khả năng là flag được mã hóa:
+
+![image](images/webdecode/image-2.png)
+
+Sử dụng [CyberChef](https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)&input=Y0dsamIwTlVSbnQzWldKZmMzVmpZek56YzJaMWJHeDVYMlF6WXpCa1pXUmZNREpqWkdOaU5UbDk), chúng ta có thể nhận được flag từ chuỗi Base64:
+
+![image](images/webdecode/image-3.png)
+
+### Flag
+
+`picoCTF{web_succ3ssfully_d3c0ded_02cdcb59}`
