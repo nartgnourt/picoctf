@@ -60,3 +60,34 @@ Xem HTML source code, chúng ta lụm được flag:
 ### Flag
 
 `picoCTF{pr3tty_c0d3_743d0f9b}`
+
+## IntroToBurp
+
+> Author: Nana Ama Atombo-Sackey & Sabine Gisagara
+>
+> **Hints**
+>
+> Try using burpsuite to intercept request to capture the flag.\
+> Try mangling the request, maybe their server-side code doesn't handle malformed requests very well.
+
+### Solution
+
+Chúng ta có một trang web đơn giản cho phép đăng ký tài khoản:
+
+![image](images/introtoburp/image-1.png)
+
+Nhập vào thông tin và đăng ký thử:
+
+![image](images/introtoburp/image-2.png)
+
+Sau khi nhấn "Register", chúng ta được chuyển đến trang xác thực 2FA, yêu cầu nhập OTP:
+
+![image](images/introtoburp/image-3.png)
+
+Chúng ta không biết mã OTP là gì nhưng nếu đổi tham số `otp` thành `otp[]` sẽ bypass thành công và nhận được flag:
+
+![image](images/introtoburp/image-4.png)
+
+### Flag
+
+`picoCTF{#0TP_Bypvss_SuCc3$S_2e80f1fd}`
