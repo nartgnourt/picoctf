@@ -91,3 +91,29 @@ Chúng ta không biết mã OTP là gì nhưng nếu đổi tham số `otp` thà
 ### Flag
 
 `picoCTF{#0TP_Bypvss_SuCc3$S_2e80f1fd}`
+
+## Bookmarklet
+
+> Author: Jeffery John
+>
+> Why search for the flag when I can make a bookmarklet to print it for me?
+>
+> **Hints**
+>
+> A bookmarklet is a bookmark that runs JavaScript instead of loading a webpage.
+> What happens when you click a bookmarklet?
+> Web browsers have other ways to run JavaScript too.
+
+### Solution
+
+Vào thử thách, chúng ta có một đoạn code JavaScript:
+
+![image](images/bookmarklet/image-1.png)
+
+Copy đoạn code đó và paste vào tab Console để thực thi, chúng ta nhận được flag:
+
+![image](images/bookmarklet/image-2.png)
+
+### Flag
+
+`picoCTF{p@g3_turn3r_18d2fa20}`
