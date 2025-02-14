@@ -117,3 +117,39 @@ Copy đoạn code đó và paste vào tab Console để thực thi, chúng ta nh
 ### Flag
 
 `picoCTF{p@g3_turn3r_18d2fa20}`
+
+## Local Authority
+
+> Author: LT 'syreal' Jones
+>
+> Can you get the flag?
+>
+> **Hints**
+>
+> How is the password checked on this website?
+
+### Solution
+
+Bắt đầu thử thách, chúng ta có một trang web như sau:
+
+![image](images/local-authority/image-1.png)
+
+Đăng nhập thử với tài khoản `admin:admin` nhưng không thành công:
+
+![image](images/local-authority/image-2.png)
+
+Khi xem HTML source code sẽ thấy có file `secure.js`:
+
+![image](images/local-authority/image-3.png)
+
+Truy cập vào file `secure.js`, chúng ta thấy tài khoản của admin là `admin:strongPassword098765`:
+
+![image](images/local-authority/image-4.png)
+
+Đăng nhập với tài khoản trên, chúng ta có được flag:
+
+![image](images/local-authority/image-5.png)
+
+### Flag
+
+`picoCTF{j5_15_7r4n5p4r3n7_b0c2c9cb}`
