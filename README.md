@@ -899,3 +899,39 @@ SELECT * FROM flags;
 ### Flag
 
 `picoCTF{L3arN_S0m3_5qL_t0d4Y_31fd14c0}`
+
+## Secrets
+
+> Author: Geoffrey Njogu
+>
+> We have several pages hidden. Can you find the one with the flag?
+>
+> **Hints**
+>
+> folders folders folders
+
+### Solution
+
+Vào thử thách, chúng ta có trang web sau:
+
+![image](images/secrets/image-1.png)
+
+Xem HTML source code, chúng ta thấy có một đường dẫn đáng nghi `secret/assets/DX1KYM.jpg`:
+
+![image](images/secrets/image-2.png)
+
+Khi gửi request tới `/secret/`, chúng ta lại thấy có thư mục `hidden`:
+
+![image](images/secrets/image-3.png)
+
+Gửi request tới `/secret/hidden/`, chúng ta thấy có thư mục tiếp theo là `superhidden`:
+
+![image](images/secrets/image-4.png)
+
+Và khi request tới `/secret/hidden/superhidden/`, chúng ta lụm thành công flag:
+
+![image](images/secrets/image-5.png)
+
+### Flag
+
+`picoCTF{succ3ss_@h3n1c@10n_39849bcf}`
