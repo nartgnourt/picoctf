@@ -153,3 +153,27 @@ Truy cập vào file `secure.js`, chúng ta thấy tài khoản của admin là 
 ### Flag
 
 `picoCTF{j5_15_7r4n5p4r3n7_b0c2c9cb}`
+
+## Inspect HTML
+
+> Author: LT 'syreal' Jones
+>
+> Can you get the flag?
+>
+> **Hints**
+>
+> What is the web inspector in web browsers?
+
+### Solution
+
+Vào thử thách, chúng ta có trang web sau:
+
+![image](images/inspect-html/image-1.png)
+
+Sau khi xem HTML source code, chúng ta sẽ thấy phần comment chứa flag:
+
+![image](images/inspect-html/image-2.png)
+
+### Flag
+
+`picoCTF{1n5p3t0r_0f_h7ml_fd5d57bd}`
