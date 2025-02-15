@@ -831,3 +831,41 @@ Và phần cuối của flag:
 ### Flag
 
 `picoCTF{proxies_all_the_way_a0fe074f}`
+
+## SQLiLite
+
+> Author: Mubarak Mikail
+>
+> Can you login to this website?
+>
+> **Hints**
+>
+> `admin` is the user you want to login as.
+
+### Solution
+
+Truy cập vào URL của thử thách, chúng ta thấy một giao diện đăng nhập như sau:
+
+![image](images/sqlilite/image-1.png)
+
+Mục tiêu của chúng ta là đăng nhập với người dùng `admin`, thử đăng nhập với tài khoản `admin:admin`, chúng ta thấy thông báo đăng nhập thất bại kèm theo câu truy vấn xuất hiện:
+
+![image](images/sqlilite/image-2.png)
+
+Cả tên người dùng và mật khẩu đều được truyền vào cặp dấu `'` nên có thể khai thác SQL Injection tại đây.
+
+Chúng ta sẽ chỉ cần nhập tên người dùng là `admin'--` để bypass thành công:
+
+![image](images/sqlilite/image-3.png)
+
+Đã đăng nhập thành công nhưng flag ở đâu?
+
+![image](images/sqlilite/image-4.png)
+
+Xem HTML source code, chúng ta thấy flag:
+
+![image](images/sqlilite/image-5.png)
+
+### Flag
+
+`picoCTF{L00k5_l1k3_y0u_solv3d_it_d3c660ac}`
