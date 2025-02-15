@@ -385,3 +385,36 @@ Tải lại trang web và chúng ta thấy được flag:
 ### Flag
 
 `picoCTF{th3_c0nsp1r4cy_l1v3s_d1c24fef}`
+
+## Insp3ct0r
+
+> Author: zaratec/danny
+>
+> Kishor Balan tipped us off that the following code may need inspection: <https://jupiter.challenges.picoctf.org/problem/44924/> or <http://jupiter.challenges.picoctf.org:44924>
+>
+> **Hints**
+>
+> How do you inspect web code on a browser?\
+> There's 3 parts
+
+### Solution
+
+Vào URL, chúng ta có một trang web đơn giản:
+
+![image](images/insp3ct0r/image-1.png)
+
+Xem HTML source code, chúng ta thấy phần thứ nhất của flag:
+
+![image](images/insp3ct0r/image-2.png)
+
+Truy cập vào file `mycss.css`, chúng ta lụm được phần thứ hai:
+
+![image](images/insp3ct0r/image-3.png)
+
+Và phần thứ ba của flag nằm ở trong file `myjs.js`:
+
+![image](images/insp3ct0r/image-4.png)
+
+### Flag
+
+`picoCTF{tru3_d3t3ct1ve_0r_ju5t_lucky?f10be399}`
