@@ -250,3 +250,47 @@ Vậy, chúng ta sẽ sử dụng Burp Intruder để brute-force tìm ra con s�
 ### Flag
 
 `picoCTF{3v3ry1_l0v3s_c00k135_94190c8a}`
+
+## Scavenger Hunt
+
+> Author: madStacks
+>
+> There is some interesting information hidden around this site <http://mercury.picoctf.net:39698/>. Can you find it?
+>
+> **Hints**
+>
+> You should have enough hints to find the files, don't run a brute forcer.
+
+### Solution
+
+Vào URL của thử thách, chúng ta có một trang web như sau:
+
+![image](images/scavenger-hunt/image-1.png)
+
+Xem HTML source code, chúng ta lấy được phần thứ nhất của flag:
+
+![image](images/scavenger-hunt/image-2.png)
+
+Vào file `mycss.css`, chúng ta lấy được phần thứ hai:
+
+![image](images/scavenger-hunt/image-3.png)
+
+Ở file `myjs.js`, phần comment đề cập tới Google, gợi ý trang web có file `robots.txt`:
+
+![image](images/scavenger-hunt/image-4.png)
+
+Vào file `robots.txt`, chúng ta lụm được phần ba của flag:
+
+![image](images/scavenger-hunt/image-5.png)
+
+Do ở trong file `robots.txt` có đề cập đến server Apache và từ `Access` được viết hoa chữ cái `A` nên chúng ta nghĩ tới có file `.htaccess`. Truy cập vào, chúng ta lấy được phần thứ tư:
+
+![image](images/scavenger-hunt/image-6.png)
+
+Ở file `.htaccess` đề cập đến `Mac` và từ `Store` lại được viết hoa chữ cái đầu nên chúng ta sẽ truy cập vào file `.DS_Store` (một file ẩn mà Finder tự động tạo trong các thư mục để lưu trữ thông tin hiển thị của thư mục đó), lụm được phần cuối của flag:
+
+![image](images/scavenger-hunt/image-7.png)
+
+### Flag
+
+`picoCTF{th4ts_4_l0t_0f_pl4c3s_2_lO0k_fa04427c}`
