@@ -959,3 +959,27 @@ Xem HTML source code, chúng ta đi vào file `css/style.css` sẽ thấy có fl
 ### Flag
 
 `picoCTF{1nsp3ti0n_0f_w3bpag3s_8de925a7}`
+
+## Roboto Sans
+
+> Author: Mubarak Mikail
+>
+> The flag is somewhere on this web application not necessarily on the website. Find it.
+
+### Solution
+
+Vào URL của thử thách, chúng ta có một trang web như sau:
+
+![image](images/roboto-sans/image-1.png)
+
+Truy cập vào file `robots.txt`, chúng ta thấy có một đoạn chuỗi Base64 khả nghi. Khi decode thì thấy đường dẫn `js/myfile.txt`:
+
+![image](images/roboto-sans/image-2.png)
+
+Truy cập tới `js/myfile.txt`, chúng ta có thể lấy flag thành công:
+
+![image](images/roboto-sans/image-3.png)
+
+### Flag
+
+`picoCTF{Who_D03sN7_L1k5_90B0T5_718c9043}`
