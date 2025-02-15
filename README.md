@@ -799,3 +799,35 @@ Vậy nhập vào đoạn regex `picoCTF{.*}` với `.*` để khớp tất cả
 ### Flag
 
 `picoCTF{succ3ssfully_matchtheregex_2375af79}`
+
+## findme
+
+> Author: Geoffrey Njogu
+>
+> Help us test the form by submiting the username as `test` and password as `test!`
+>
+> **Hints**
+>
+> any redirections?
+
+### Solution
+
+Chúng ta có một trang web cho phép nhập vào thông tin tài khoản để kiểm tra:
+
+![image](images/findme/image-1.png)
+
+Sau khi đăng nhập với tài khoản `test:test!` được đề cập trong mô tả, chúng ta thấy rằng bị redirect mấy lần và tới trang sau:
+
+![image](images/findme/image-2.png)
+
+Kiểm tra HTTP history trong Burp Suite, chúng ta thấy flag được chia thành 2 phần và mã hóa Base64 rồi truyền tới tham số `id`, bên dưới là phần đầu:
+
+![image](images/findme/image-3.png)
+
+Và phần cuối của flag:
+
+![image](images/findme/image-4.png)
+
+### Flag
+
+`picoCTF{proxies_all_the_way_a0fe074f}`
