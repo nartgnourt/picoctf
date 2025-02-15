@@ -349,3 +349,39 @@ Khi xem HTML source code, chúng ta sẽ có các mảnh của flag, công việ
 ### Flag
 
 `picoCTF{no_clients_plz_7723ce}`
+
+## logon
+
+> Author: bobson
+>
+> The factory is hiding things from all of its users. Can you login as Joe and find what they've been looking at? <https://jupiter.challenges.picoctf.org/problem/13594/> or <http://jupiter.challenges.picoctf.org:13594>
+>
+> **Hints**
+>
+> Hmm it doesn't seem to check anyone's password, except for Joe's?
+
+### Solution
+
+Vào URL của thử thách, chúng ta có một trang web cho phép đăng nhập:
+
+![image](images/logon/image-1.png)
+
+Chúng ta có thể đăng nhập thành công với tài khoản `admin:admin`:
+
+![image](images/logon/image-2.png)
+
+Vẫn chưa thấy flag, kiểm tra sẽ có một cookie `admin` với giá trị `False` được chỉ định:
+
+![image](images/logon/image-3.png)
+
+Vậy, chúng ta sẽ sửa giá trị của cookie `admin` thành `True`:
+
+![image](images/logon/image-4.png)
+
+Tải lại trang web và chúng ta thấy được flag:
+
+![image](images/logon/image-5.png)
+
+### Flag
+
+`picoCTF{th3_c0nsp1r4cy_l1v3s_d1c24fef}`
