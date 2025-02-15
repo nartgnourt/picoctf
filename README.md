@@ -869,3 +869,33 @@ Xem HTML source code, chúng ta thấy flag:
 ### Flag
 
 `picoCTF{L00k5_l1k3_y0u_solv3d_it_d3c660ac}`
+
+## SQL Direct
+
+> Author: Mubarak Mikail / LT 'syreal' Jones
+>
+> Connect to this PostgreSQL server and find the flag!\
+> `psql -h saturn.picoctf.net -p 62220 -U postgres pico`\
+> Password is `postgres`
+
+### Solution
+
+Chúng ta sẽ sử dụng luôn webshell trên pico để chạy lệnh kết nối tới PostgreSQL server.
+
+Lệnh xem các bảng trong database hiện tại:
+
+```text
+\dt
+```
+
+Lấy tất cả các bản ghi từ bảng `flags` với câu truy vấn:
+
+```sql
+SELECT * FROM flags;
+```
+
+![image](images/sql-direct/image-1.png)
+
+### Flag
+
+`picoCTF{L3arN_S0m3_5qL_t0d4Y_31fd14c0}`
