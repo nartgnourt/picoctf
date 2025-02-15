@@ -177,3 +177,39 @@ Sau khi xem HTML source code, chúng ta sẽ thấy phần comment chứa flag:
 ### Flag
 
 `picoCTF{1n5p3t0r_0f_h7ml_fd5d57bd}`
+
+## Includes
+
+> Author: LT 'syreal' Jones
+>
+> Can you get the flag?
+>
+> **Hints**
+>
+> Is there more code than what the inspector initially shows?
+
+### Solution
+
+Chúng ta có một trang web như sau:
+
+![image](images/includes/image-1.png)
+
+Khi nhấn "Say hello", một alert xuất hiện nói code này ở một file khác, gợi ý sự tồn tại của một file JavaScript:
+
+![image](images/includes/image-2.png)
+
+Xem HTML source code, chúng ta sẽ thấy có 2 files là `style.css` và `script.js`:
+
+![image](images/includes/image-3.png)
+
+Vào file `style.css`, chúng ta thấy phần đầu của flag:
+
+![image](images/includes/image-4.png)
+
+Và vào file `script.js`, chúng ta lấy được phần flag còn lại:
+
+![image](images/includes/image-5.png)
+
+### Flag
+
+`picoCTF{1nclu51v17y_1of2_f7w_2of2_6edef411}`
