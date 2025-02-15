@@ -683,3 +683,47 @@ Gửi request và lụm thành công flag:
 ### Flag
 
 `picoCTF{jBhD2y7XoNzPv_1YxS9Ew5qL0uI6pasql_injection_25ba4de1}`
+
+## SOAP
+
+> Author: Geoffrey Njogu
+>
+> The web project was rushed and no security assessment was done. Can you read the /etc/passwd file?
+>
+> **Hints**
+>
+> XML external entity Injection
+
+### Solution
+
+Vào URL của thử thách, chúng ta có trang web sau:
+
+![image](images/soap/image-1.png)
+
+Khi nhấn "Details", chúng ta thấy một thông báo xuất hiện ở phía dưới:
+
+![image](images/soap/image-2.png)
+
+Kiểm tra request, chúng ta sẽ thấy đó là một POST request với dữ liệu XML được gửi đi trong body:
+
+![image](images/soap/image-3.png)
+
+Chúng ta có thể nghĩ ngay tới việc khai thác lỗ hổng XXE. Theo như mô tả, mục tiêu của chúng ta là đọc file `/etc/passwd` nên sử dụng payload sau:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE abc [<!ENTITY etc SYSTEM 'file:///etc/passwd'>]>
+<data>
+    <ID>
+      &etc;
+    </ID>
+</data>
+```
+
+Gửi đi request, chúng ta thấy flag nằm trong response:
+
+![image](images/soap/image-4.png)
+
+### Flag
+
+`picoCTF{XML_3xtern@l_3nt1t1ty_e5f02dbf}`
