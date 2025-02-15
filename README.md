@@ -1019,3 +1019,45 @@ Tải lại trang web, chúng ta nhận được flag:
 ### Flag
 
 `picoCTF{gr4d3_A_c00k13_5d2505be}`
+
+## Forbidden Paths
+
+> Author: LT 'syreal' Jones
+>
+> Can you get the flag?
+> We know that the website files live in `/usr/share/nginx/html/` and the flag is at `/flag.txt` but the website is filtering absolute file paths. Can you get past the filter to read the flag?
+
+### Solution
+
+Vào thử thách, chúng ta có trang web cho phép đọc file:
+
+![image](images/forbidden-paths/image-1.png)
+Đọc thử file `oliver-twist.txt`:
+
+![image](images/forbidden-paths/image-2.png)
+
+Bên dưới là POST request tới `/read.php` để thực hiện đọc file:
+
+![image](images/forbidden-paths/image-3.png)
+
+Chúng ta thử thay đổi giá trị của tham số `filename` thành `/etc/passwd` để đọc file này. Tuy nhiên, không thể đọc được:
+
+![image](images/forbidden-paths/image-4.png)
+
+Đúng theo mô tả, chúng ta không được sử dụng đường dẫn tuyệt đối để đọc file.
+
+Vậy chúng ta có thể bypass bằng cách sử dụng `../`:
+
+![image](images/forbidden-paths/image-5.png)
+
+Và đọc flag thành công với payload:
+
+```text
+../../../flag.txt
+```
+
+![image](images/forbidden-paths/image-6.png)
+
+### Flag
+
+`picoCTF{7h3_p47h_70_5ucc355_e5fe3d4d}`
