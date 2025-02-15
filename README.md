@@ -983,3 +983,39 @@ Truy cập tới `js/myfile.txt`, chúng ta có thể lấy flag thành công:
 ### Flag
 
 `picoCTF{Who_D03sN7_L1k5_90B0T5_718c9043}`
+
+## Power Cookie
+
+> Author: LT 'syreal' Jones
+>
+> Can you get the flag?
+>
+> **Hints**
+>
+> Do you know how to modify cookies?
+
+### Solution
+
+Vào thử thách, chúng ta có trang web đơn giản sau:
+
+![image](images/power-cookie/image-1.png)
+
+Khi nhấn "Continue as guest", chúng ta nhận một lời xin lỗi:
+
+![image](images/power-cookie/image-2.png)
+
+Nếu kiểm tra cookies, chúng ta sẽ thấy có cookie `isAdmin` với giá trị `0`:
+
+![image](images/power-cookie/image-3.png)
+
+Vậy chúng ta sẽ đổi `0` thành `1`:
+
+![image](images/power-cookie/image-4.png)
+
+Tải lại trang web, chúng ta nhận được flag:
+
+![image](images/power-cookie/image-5.png)
+
+### Flag
+
+`picoCTF{gr4d3_A_c00k13_5d2505be}`
