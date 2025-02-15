@@ -213,3 +213,40 @@ Và vào file `script.js`, chúng ta lấy được phần flag còn lại:
 ### Flag
 
 `picoCTF{1nclu51v17y_1of2_f7w_2of2_6edef411}`
+
+## Cookies
+
+> Author: madStacks
+>
+> Who doesn't love cookies? Try to figure out the best one.\
+<http://mercury.picoctf.net:21485/>
+
+### Solution
+
+Vào URL của thử thách, chúng ta có một trang web như sau:
+
+![image](images/cookies/image-1.png)
+
+Nhập luôn chuỗi `snickerdoodle` và nhấn "Search" thì chúng ta vẫn chưa thấy flag đâu:
+
+![image](images/cookies/image-2.png)
+
+Chúng ta được cấp một cookie `name=0`:
+
+![image](images/cookies/image-3.png)
+
+Nếu chúng ta sửa `0` thành `1` vẫn không có flag:
+
+![image](images/cookies/image-4.png)
+
+Vậy, chúng ta sẽ sử dụng Burp Intruder để brute-force tìm ra con số phù hợp:
+
+![image](images/cookies/image-5.png)
+
+"Start attack" và sau chốc lát chờ đợi, với `name=18`, chúng ta có được flag:
+
+![image](images/cookies/image-6.png)
+
+### Flag
+
+`picoCTF{3v3ry1_l0v3s_c00k135_94190c8a}`
