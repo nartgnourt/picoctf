@@ -1120,3 +1120,48 @@ Cuối cùng, gửi request chúng ta thấy flag:
 ### Flag
 
 `picoCTF{succ3ss_@u7h3nt1c@710n_72bf8bd5}`
+
+## caas
+
+> Author: BrownieInMotion
+>
+> Now presenting cowsay as a service
+>
+> [index.js](sources/caas/index.js)
+
+### Solution
+
+Vào thử thách, chúng ta có một trang web sau:
+
+![image](images/caas/image-1.png)
+
+Phân tích source code được cung cấp, chúng ta nhận thấy ngay lỗ hổng OS Command Injection tồn tại ở tham số `message` trong path. Giá trị của tham số `message` được truyền vào làm đối số của lệnh `/usr/games/cowsay`:
+
+```js
+...
+app.get('/cowsay/:message', (req, res) => {
+  exec(`/usr/games/cowsay ${req.params.message}`, {timeout: 5000}, (error, stdout) => {
+    if (error) return res.status(500).end();
+    res.type('txt').send(stdout).end();
+  });
+});
+...
+```
+
+Vậy chúng ta sẽ sử dụng payload `$(ls)`, xác định được có file `falg.txt` ở thư mục hiện tại:
+
+![image](images/caas/image-2.png)
+
+Đọc file đó với payload `$(cat${IFS}falg.txt)`, trong payload này, chúng ta dùng `${IFS}` để tránh khoảng trắng khiến lệnh không thể thực thi:
+
+![image](images/caas/image-4.png)
+
+Ngoài ra, chúng ta cũng có thể sử dụng một số payload khác:
+
+![image](images/caas/image-4.png)
+
+![image](images/caas/image-5.png)
+
+### Flag
+
+`picoCTF{moooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0o}`
