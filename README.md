@@ -1165,3 +1165,46 @@ Ngoài ra, chúng ta cũng có thể sử dụng một số payload khác:
 ### Flag
 
 `picoCTF{moooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo0o}`
+
+## login
+
+> My dog-sitter's brother made this website but I can't get in; can you help?
+>
+> <https://login.mars.picoctf.net/>
+
+Vào URL của thử thách, chúng ta có trang web cho phép đăng nhập như sau:
+
+![image](images/login/image-1.png)
+
+Tuy nhiên, nếu xem HTML source code, chúng ta sẽ thấy có một file `index.js`:
+
+![image](images/login/image-2.png)
+
+Nội dung file `index.js` sẽ như sau:
+
+```js
+(async () => {
+  await new Promise((e) => window.addEventListener("load", e)),
+    document.querySelector("form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const r = { u: "input[name=username]", p: "input[name=password]" },
+        t = {};
+      for (const e in r)
+        t[e] = btoa(document.querySelector(r[e]).value).replace(/=/g, "");
+      return "YWRtaW4" !== t.u
+        ? alert("Incorrect Username")
+        : "cGljb0NURns1M3J2M3JfNTNydjNyXzUzcnYzcl81M3J2M3JfNTNydjNyfQ" !== t.p
+        ? alert("Incorrect Password")
+        : void alert(`Correct Password! Your flag is ${atob(t.p)}.`);
+    });
+})();
+
+```
+
+Decode Base64 chuỗi `cGljb0NURns1M3J2M3JfNTNydjNyXzUzcnYzcl81M3J2M3JfNTNydjNyfQ`, chúng ta có được flag:
+
+![image](images/login/image-3.png)
+
+### Flag
+
+`picoCTF{53rv3r_53rv3r_53rv3r_53rv3r_53rv3r}`
