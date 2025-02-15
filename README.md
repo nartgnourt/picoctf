@@ -325,3 +325,27 @@ Gửi request với method `HEAD`, chúng ta lụm thành công flag:
 ### Flag
 
 `picoCTF{r3j3ct_th3_du4l1ty_8f878508}`
+
+## dont-use-client-side
+
+> Author: Alex Fulton/Danny
+>
+> Can you break into this super secure portal? <https://jupiter.challenges.picoctf.org/problem/29835/> or <http://jupiter.challenges.picoctf.org:29835>
+>
+> **Hints**
+>
+> Never trust the client
+
+### Solution
+
+Vào URL của thử thách, chúng ta có một trang web để nhập credentials:
+
+![image](images/dont-use-client-side/image-1.png)
+
+Khi xem HTML source code, chúng ta sẽ có các mảnh của flag, công việc bây giờ là cần ghép chúng lại sao cho phù hợp:
+
+![image](images/dont-use-client-side/image-2.png)
+
+### Flag
+
+`picoCTF{no_clients_plz_7723ce}`
