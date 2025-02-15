@@ -294,3 +294,34 @@ Do ở trong file `robots.txt` có đề cập đến server Apache và từ `Ac
 ### Flag
 
 `picoCTF{th4ts_4_l0t_0f_pl4c3s_2_lO0k_fa04427c}`
+
+## GET aHEAD
+
+> Author: madStacks
+>
+> Find the flag being held on this server to get ahead of the competition <http://mercury.picoctf.net:34561/>
+>
+> **Hints**
+>
+> Maybe you have more than 2 choices\
+> Check out tools like Burpsuite to modify your requests and look at the responses
+
+### Solution
+
+Vào URL của thử thách, chúng ta có trang web cho phép lựa chọn màu sắc đỏ hoặc xanh:
+
+![image](images/get-ahead/image-1.png)
+
+Nhấn "Choose Blue" thì màu nền sẽ đổi thành xanh nhưng không có gì đặc biệt:
+
+![image](images/get-ahead/image-2.png)
+
+Tuy nhiên, theo tên của thử thách là `GET aHEAD` với `GET` và `HEAD` được viết in hoa, chúng ta có thể nghĩ tới việc thay đổi request method.
+
+Gửi request với method `HEAD`, chúng ta lụm thành công flag:
+
+![image](images/get-ahead/image-3.png)
+
+### Flag
+
+`picoCTF{r3j3ct_th3_du4l1ty_8f878508}`
