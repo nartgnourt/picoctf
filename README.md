@@ -727,3 +727,43 @@ Gửi đi request, chúng ta thấy flag nằm trong response:
 ### Flag
 
 `picoCTF{XML_3xtern@l_3nt1t1ty_e5f02dbf}`
+
+## More SQLi
+
+> Author: Mubarak Mikail
+>
+> Can you find the flag on this website.
+>
+> **Hints**
+>
+> SQLiLite
+
+### Solution
+
+Chúng ta có một trang web cho phép đăng nhập như sau:
+
+![image](images/more-sqli/image-1.png)
+
+Thử đăng nhập với tài khoản `admin:admin`, chúng ta thấy trang web hiển thị ra câu truy vấn SQL:
+
+![image](images/more-sqli/image-2.png)
+
+Có thể thấy cả 2 giá trị mà chúng ta nhập đang được truyền thẳng vào trong cặp dấu `'`.
+
+Lỗi server 500 khi chúng ta thực hiện đăng nhập với thông tin sai:
+
+![image](images/more-sqli/image-3.png)
+
+Chúng ta sẽ khai thác SQL Injection với payload cơ bản sau để khiến điều kiện ở mệnh đề `WHERE` đúng:
+
+```text
+username=admin&password=' OR 1=1--
+```
+
+Gửi request, chúng ta lấy được flag:
+
+![image](images/more-sqli/image-4.png)
+
+### Flag
+
+`picoCTF{G3tting_5QL_1nJ3c7I0N_l1k3_y0u_sh0ulD_62aa7500}`
