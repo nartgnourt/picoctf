@@ -767,3 +767,35 @@ Gửi request, chúng ta lấy được flag:
 ### Flag
 
 `picoCTF{G3tting_5QL_1nJ3c7I0N_l1k3_y0u_sh0ulD_62aa7500}`
+
+## MatchTheRegex
+
+> Author: Sunday Jacob Nwanyim
+>
+> How about trying to match a regular expression
+>
+> **Hints**
+>
+> Access the webpage and try to match the regular expression associated with the text field
+
+### Solution
+
+Chúng ta có một trang web cho phép nhập vào dữ liệu:
+
+![image](images/matchtheregex/image-1.png)
+
+Nhập thử "a", chúng ta nhận thông báo kết quả không khớp:
+
+![image](images/matchtheregex/image-2.png)
+
+Xem đoạn code JavaScript bên dưới, chúng ta có thể hiểu là server sẽ cho phép nhập vào một chuỗi regex, nếu nó có thể khớp với chuỗi flag thì chúng ta nhận được flag:
+
+![image](images/matchtheregex/image-3.png)
+
+Vậy nhập vào đoạn regex `picoCTF{.*}` với `.*` để khớp tất cả các ký tự ngoại trừ dấu xuống dòng, chúng ta có thể lụm flag:
+
+![image](images/matchtheregex/image-4.png)
+
+### Flag
+
+`picoCTF{succ3ssfully_matchtheregex_2375af79}`
