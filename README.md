@@ -1061,3 +1061,62 @@ Và đọc flag thành công với payload:
 ### Flag
 
 `picoCTF{7h3_p47h_70_5ucc355_e5fe3d4d}`
+
+## JAuth
+
+> Author: Geoffrey Njogu
+>
+> Most web application developers use third party components without testing their security. Some of the past affected companies are:
+>
+> - Equifax (a US credit bureau organization) - breach due to unpatched Apache Struts web framework CVE-2017-5638
+> - Mossack Fonesca (Panama Papers law firm) breach - unpatched version of Drupal CMS used
+> - VerticalScope (internet media company) - outdated version of vBulletin forum software used
+>
+> Can you identify the components and exploit the vulnerable one?\
+> The website is running here. Can you become an admin?\
+> You can login as `test` with the password `Test123!` to get started.
+>
+> **Hints**
+>
+> Use the web browser tools to check out the JWT cookie.\
+> The JWT should always have two (2) . separators.
+
+### Solution
+
+Vào thử thách, chúng ta có một trang web cho phép đăng nhập như sau:
+
+![image](images/jauth/image-1.png)
+
+Đăng nhập thành công với tài khoản được cung cấp `test:Test123!` nhưng không thấy có gì xuất hiện:
+
+![image](images/jauth/image-2.png)
+
+Chúng ta kiểm tra request tới `/private`, thấy có một cookie `token` là JWT:
+
+![image](images/jauth/image-3.png)
+
+Xem trong phần payload của chuỗi JWT có chứa `"role":"user"`:
+
+![image](images/jauth/image-4.png)
+
+Theo như mô tả cũng như tìm kiếm thông tin liên quan, chúng ta xác định có thể khai thác JWT sử dụng None Algorithm.
+
+Trước tiên, thay giá trị của `"role"` thành `"admin"`:
+
+![image](images/jauth/image-5.png)
+
+Chúng ta đổi giá trị của `"alg"` thành `"none"`:
+
+![image](images/jauth/image-6.png)
+
+Xóa đi phần signature nhưng cần giữ lại dấu `.` ở cuối:
+
+![image](images/jauth/image-7.png)
+
+Cuối cùng, gửi request chúng ta thấy flag:
+
+![image](images/jauth/image-8.png)
+
+### Flag
+
+`picoCTF{succ3ss_@u7h3nt1c@710n_72bf8bd5}`
