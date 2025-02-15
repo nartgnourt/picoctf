@@ -935,3 +935,27 @@ Và khi request tới `/secret/hidden/superhidden/`, chúng ta lụm thành côn
 ### Flag
 
 `picoCTF{succ3ss_@h3n1c@10n_39849bcf}`
+
+## Search source
+
+>Author: Mubarak Mikail
+>
+> The developer of this website mistakenly left an important artifact in the website source, can you find it?
+>
+> **Hints**
+>
+> How could you mirror the website on your local machine so you could use more powerful tools for searching?
+
+### Solution
+
+Chúng ta có trang web như sau:
+
+![image](images/search-source/image-1.png)
+
+Xem HTML source code, chúng ta đi vào file `css/style.css` sẽ thấy có flag:
+
+![image](images/search-source/image-2.png)
+
+### Flag
+
+`picoCTF{1nsp3ti0n_0f_w3bpag3s_8de925a7}`
