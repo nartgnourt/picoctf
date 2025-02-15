@@ -418,3 +418,31 @@ Và phần thứ ba của flag nằm ở trong file `myjs.js`:
 ### Flag
 
 `picoCTF{tru3_d3t3ct1ve_0r_ju5t_lucky?f10be399}`
+
+## where are the robots
+
+> Author: zaratec/Danny
+>
+> Can you find the robots? <https://jupiter.challenges.picoctf.org/problem/36474/> or <http://jupiter.challenges.picoctf.org:36474>
+>
+> *Hints*
+>
+> What part of the website could tell you where the creator doesn't want you to look?
+
+### Solution
+
+Vào thử thách, chúng ta thấy trang web sau:
+
+![image](images/where-are-the-robots/image-1.png)
+
+Nó hỏi `robots` ở đâu nên chúng ta có thể nghĩ tới trang web có file `robots.txt`. Truy cập vào, chúng ta thấy một file `477ce.html` được chỉ định:
+
+![image](images/where-are-the-robots/image-2.png)
+
+Vào file `477ce.html`, chúng ta lụm được flag:
+
+![image](images/where-are-the-robots/image-3.png)
+
+### Flag
+
+`picoCTF{ca1cu1at1ng_Mach1n3s_477ce}`
